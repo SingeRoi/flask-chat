@@ -2,4 +2,4 @@
 
 # Flask chat application
 
-this is a chat application written in Flask
+this is a chat application written in Flask. The puropse is to take data from a URL and store it in a list. 
