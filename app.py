@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, redirect, render_template, request, session
 app = Flask(__name__)
 messages = []
@@ -9,18 +10,26 @@ messages =[]
 
 
 def add_messages(username, message):
-    """Add messages to the `messages` list"""
-    messages.append("{}, {}".format(username, message))
-
+    """Add messages to the `messages` list with timestamp"""
+    now = datetime.now ().strftime("%H:%M:%S")
+    messages.append("{}) {}: {}".format(now, username, message))
 
 def get_all_messages():
     '''Get all messages and display separated by "/br"'''
     return "<br>".join(messages)
 
-@app.route('/')
+@app.route('/', methods = ["GET", "POST"])
 def index():
-    '''Main page instructions'''
-    return "To send a message use /USERNAME/MESSAGE"
+    '''Main page with instructions'''
+
+    if request.method == "POST":
+        session["username"] = request.form["username"]
+
+    '''for existing username redirect to username variable content'''
+    if "username" in session:
+        return redirect(session["username"])
+
+    return render_template("index.html")
 
 
 @app.route('/<username>')    
