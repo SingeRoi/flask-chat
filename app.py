@@ -1,6 +1,11 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, render_template, request, session
 app = Flask(__name__)
 messages = []
+
+
+app =  Flask(__name__)
+app.secret_key = "randomstring123"
+messages =[]
 
 
 def add_messages(username, message):
